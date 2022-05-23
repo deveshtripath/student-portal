@@ -9,6 +9,8 @@ from youtubesearchpython import VideosSearch
 import requests
 import wikipedia
 
+
+
 # Create your views here.
 
 def home(request):
@@ -198,8 +200,7 @@ def books(request):
                 'categories':answer['items'][i]['volumeInfo'].get('categories'),
                 'rating':answer['items'][i]['volumeInfo'].get('pageRating'),
                 'thumbnail':answer['items'][i]['volumeInfo'].get('imageLinks').get('thumbnail'),
-                'preview':answer['items'][i]['volumeInfo'].get('previewLinks')
-    
+                'preview':answer['items'][i]['volumeInfo'].get('previewLinks'),
             }
             
             result_list.append(result_dict)    
@@ -218,7 +219,7 @@ def dictionary(request):
     if request.method =="POST":
         form = DashboardForm(request.POST)
         text = request.POST['text']
-        url= "https://api.dictionaryapi.dev/api/v2/entries/en_US/"+text
+        url= "https://api.dictionaryapi.dev/api/v2/entries/en/"+text
         r= requests.get(url)
         answer=r.json()
         try:
@@ -318,16 +319,19 @@ def conversion(request):
                     'input':True,
                     'answer':answer
                 }
-        else:
-            form=ConversionForm()
 
-        context={
-            'form':form,
-            'input':False
-        }
+                # return render(request,"dashboard/conversion.html",context)
+    else:
+        form=ConversionForm()
 
-    
-        return render(request,"dashboard/conversion.html",context)
+    context={
+        'form':form,
+        'input':False
+    }
+
+    return render(request,"dashboard/conversion.html",context)
+
+    # return render(request,"dashboard/conversion.html")    
 
 
 
@@ -374,6 +378,8 @@ def profile(request):
 
 
 
-
+def attendance(request):
+    
+    return render(request,'dashboard/attendance.html')
 
 
